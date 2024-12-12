@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Separator Details{% endblock %}
+
+{% block content %}
+<h2>Separator Details</h2>
+<p><strong>ID:</strong> {{ separator.id }}</p>
+<p><strong>Name:</strong> {{ separator.name }}</p>
+<a href="{% url 'separator_update' separator.id %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'separator_delete' separator.id %}" class="btn btn-danger">Delete</a>
+{% endblock %}

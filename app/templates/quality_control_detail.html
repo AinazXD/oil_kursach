@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Quality Control Details{% endblock %}
+
+{% block content %}
+<h2>Quality Control Details</h2>
+<p><strong>ID:</strong> {{ quality_control.id }}</p>
+<p><strong>Name:</strong> {{ quality_control.name }}</p>
+<a href="{% url 'quality_control_update' quality_control.id %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'quality_control_delete' quality_control.id %}" class="btn btn-danger">Delete</a>
+{% endblock %}

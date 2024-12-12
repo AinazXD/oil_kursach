@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Batch{% endblock %}
+
+{% block content %}
+<h2>{% if object %}Edit Batch{% else %}Create Batch{% endif %}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Batch Details{% endblock %}
+
+{% block content %}
+<h2>Batch Details</h2>
+<p><strong>ID:</strong> {{ batch.id }}</p>
+<p><strong>Name:</strong> {{ batch.name }}</p>
+<a href="{% url 'batch_update' batch.id %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'batch_delete' batch.id %}" class="btn btn-danger">Delete</a>
+{% endblock %}

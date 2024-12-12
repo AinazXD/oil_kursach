@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}System Details{% endblock %}
+
+{% block content %}
+<h2>System Details</h2>
+<p><strong>ID:</strong> {{ system.id }}</p>
+<p><strong>Name:</strong> {{ system.name }}</p>
+<p><strong>Start Date:</strong> {{ system.startDate }}</p>
+<p><strong>End Date:</strong> {{ system.endDate }}</p>
+<p><strong>Status:</strong> {{ system.get_status_display }}</p>
+<p><strong>Start System:</strong> {{ system.startSystem }}</p>
+<p><strong>Stop System:</strong> {{ system.stopSystem }}</p>
+<p><strong>Monitor Pipelines:</strong> {{ system.monitorPipelines }}</p>
+<a href="{% url 'system_update' system.id %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'system_delete' system.id %}" class="btn btn-danger">Delete</a>
+{% endblock %}

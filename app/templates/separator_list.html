@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Separators{% endblock %}
+
+{% block content %}
+<h2>Separators</h2>
+<a href="{% url 'separator_create' %}" class="btn btn-success mb-3">Create Separator</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for separator in separators %}
+        <tr>
+            <td>{{ separator.id }}</td>
+            <td>{{ separator.name }}</td>
+            <td>
+                <a href="{% url 'separator_detail' separator.id %}" class="btn btn-info btn-sm">View</a>
+                <a href="{% url 'separator_update' separator.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'separator_delete' separator.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

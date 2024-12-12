@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Routes{% endblock %}
+
+{% block content %}
+<h2>Routes</h2>
+<a href="{% url 'route_create' %}" class="btn btn-success mb-3">Create Route</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Start Point</th>
+            <th>End Point</th>
+            <th>Volume</th>
+            <th>Product Type</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for route in routes %}
+        <tr>
+            <td>{{ route.id }}</td>
+            <td>{{ route.startPoint }}</td>
+            <td>{{ route.endPoint }}</td>
+            <td>{{ route.volume }}</td>
+            <td>{{ route.productType }}</td>
+            <td>
+                <a href="{% url 'route_detail' route.id %}" class="btn btn-info btn-sm">View</a>
+                <a href="{% url 'route_update' route.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'route_delete' route.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

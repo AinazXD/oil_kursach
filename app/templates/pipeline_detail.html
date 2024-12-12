@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Pipeline Details{% endblock %}
+
+{% block content %}
+<h2>Pipeline Details</h2>
+<p><strong>ID:</strong> {{ pipeline.id }}</p>
+<p><strong>Length (m):</strong> {{ pipeline.length }}</p>
+<p><strong>Diameter (mm):</strong> {{ pipeline.diameter }}</p>
+<p><strong>Material:</strong> {{ pipeline.material }}</p>
+<p><strong>Status:</strong> {{ pipeline.get_status_display }}</p>
+<p><strong>Pressure Check:</strong> {{ pipeline.checkPressure }}</p>
+<p><strong>Flow Rate Check:</strong> {{ pipeline.checkFlowRate }}</p>
+<a href="{% url 'pipeline_update' pipeline.id %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'pipeline_delete' pipeline.id %}" class="btn btn-danger">Delete</a>
+{% endblock %}

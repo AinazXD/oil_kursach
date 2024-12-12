@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Route Details{% endblock %}
+
+{% block content %}
+<h2>Route Details</h2>
+<p><strong>ID:</strong> {{ route.id }}</p>
+<p><strong>Start Point:</strong> {{ route.startPoint }}</p>
+<p><strong>End Point:</strong> {{ route.endPoint }}</p>
+<p><strong>Volume:</strong> {{ route.volume }}</p>
+<p><strong>Product Type:</strong> {{ route.productType }}</p>
+<p><strong>Optimal Route:</strong> {{ route.calculateOptimalRoute }}</p>
+<a href="{% url 'route_update' route.id %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'route_delete' route.id %}" class="btn btn-danger">Delete</a>
+{% endblock %}

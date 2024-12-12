@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Pipelines{% endblock %}
+
+{% block content %}
+<h2>Pipelines</h2>
+<a href="{% url 'pipeline_create' %}" class="btn btn-success mb-3">Create Pipeline</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Length (m)</th>
+            <th>Diameter (mm)</th>
+            <th>Material</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pipeline in pipelines %}
+        <tr>
+            <td>{{ pipeline.id }}</td>
+            <td>{{ pipeline.length }}</td>
+            <td>{{ pipeline.diameter }}</td>
+            <td>{{ pipeline.material }}</td>
+            <td>{{ pipeline.get_status_display }}</td>
+            <td>
+                <a href="{% url 'pipeline_detail' pipeline.id %}" class="btn btn-info btn-sm">View</a>
+                <a href="{% url 'pipeline_update' pipeline.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'pipeline_delete' pipeline.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

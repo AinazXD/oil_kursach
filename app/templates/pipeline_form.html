@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Pipeline{% endblock %}
+
+{% block content %}
+<h2>{% if object %}Edit Pipeline{% else %}Create Pipeline{% endif %}</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="id_length" class="form-label">Length (m)</label>
+        <input type="number" name="length" step="0.01" class="form-control" id="id_length" value="{{ form.length.value|default:'' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="id_diameter" class="form-label">Diameter (mm)</label>
+        <input type="number" name="diameter" step="0.01" class="form-control" id="id_diameter" value="{{ form.diameter.value|default:'' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="id_material" class="form-label">Material</label>
+        <input type="text" name="material" class="form-control" id="id_material" value="{{ form.material.value|default:'' }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="id_status" class="form-label">Status</label>
+        <select name="status" class="form-select" id="id_status" required>
+            {% for choice in form.status.field.choices %}
+                <option value="{{ choice.0 }}" {% if form.status.value == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+{% endblock %}
