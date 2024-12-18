@@ -46,3 +46,5 @@ class RouteForm(forms.ModelForm):
     class Meta:
         model = Route
         fields = ['startPoint', 'endPoint', 'volume', 'productType']
+
+

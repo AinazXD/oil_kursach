@@ -22,17 +22,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'product_list' %}">Products</a>
                     </li>
-
-                       <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'system_list' %}">Systems</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'route_list' %}">Routes</a>
                     </li>
-
-
-
-
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'batch_list' %}">Batches</a>
                     </li>
@@ -48,10 +43,33 @@
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
+                        <!-- Панель администратора -->
+                        {% if user.profile.role == 'admin' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'admin_dashboard' %}">Admin Dashboard</a>
+                            </li>
+                        {% endif %}
+
+                        <!-- Панель оператора -->
+                        {% if user.profile.role == 'operator' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'operator_dashboard' %}">Operator Dashboard</a>
+                            </li>
+                        {% endif %}
+
+                        <!-- Панель сотрудника -->
+                        {% if user.profile.role == 'employee' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'employee_dashboard' %}">Employee Dashboard</a>
+                            </li>
+                        {% endif %}
+
+                        <!-- Выход -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                         </li>
                     {% else %}
+                        <!-- Вход и регистрация -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'login' %}">Login</a>
                         </li>

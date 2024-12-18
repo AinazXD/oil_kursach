@@ -1,6 +1,39 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
+
+# Модель профиля пользователя
+class Profile(models.Model):
+    ROLE_CHOICES = [
+        ('admin', 'Администратор'),
+        ('operator', 'Оператор'),
+        ('employee', 'Сотрудник'),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='employee', verbose_name="Роль")
+    phone_number = models.CharField(max_length=15, blank=True, null=True, verbose_name="Номер телефона")
+    position = models.CharField(max_length=100, blank=True, null=True, verbose_name="Должность")
+
+    def __str__(self):
+        return f"{self.user.username} - {self.get_role_display()}"
+
+
+# Сигнал для автоматического создания профиля при создании пользователя
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+
+# Модель трубопровода
 class Pipeline(models.Model):
     STATUS_CHOICES = [
         ('active', 'Active'),
@@ -23,6 +56,7 @@ class Pipeline(models.Model):
         return f"Pipeline {self.id} ({self.status})"
 
 
+# Модель продукта
 class Product(models.Model):
     name = models.CharField(max_length=100)
     pipeline = models.ForeignKey(Pipeline, related_name='products', on_delete=models.CASCADE)
@@ -33,6 +67,7 @@ class Product(models.Model):
         return f"{self.name} ({self.volume} л)"
 
 
+# Модель партии
 class Batch(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='batches')
     type = models.CharField(max_length=100)
@@ -44,6 +79,7 @@ class Batch(models.Model):
         return f"{self.type} - {self.volume} л"
 
 
+# Модель сепаратора
 class Separator(models.Model):
     pipeline = models.ForeignKey(Pipeline, on_delete=models.CASCADE, related_name='separators')
     status = models.CharField(max_length=50)
@@ -54,6 +90,7 @@ class Separator(models.Model):
         return f"{self.pipeline.name} - {self.status}"
 
 
+# Модель контроля качества
 class QualityControl(models.Model):
     batch = models.ForeignKey(Batch, on_delete=models.CASCADE, related_name='quality_controls')
     data = models.JSONField()
@@ -63,6 +100,7 @@ class QualityControl(models.Model):
         return f"Quality for {self.batch.type}"
 
 
+# Модель отчета
 class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reports')
     pipeline = models.ForeignKey(Pipeline, on_delete=models.CASCADE, related_name='reports')
@@ -74,6 +112,7 @@ class Report(models.Model):
         return f"Report for {self.pipeline.name}"
 
 
+# Модель системы
 class System(models.Model):
     STATUS_CHOICES = [
         ('active', 'Active'),
@@ -99,6 +138,7 @@ class System(models.Model):
         return f"{self.name} ({self.status})"
 
 
+# Модель маршрута
 class Route(models.Model):
     startPoint = models.CharField(max_length=100, verbose_name="Start Point")
     endPoint = models.CharField(max_length=100, verbose_name="End Point")

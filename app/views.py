@@ -379,3 +379,56 @@ def report_delete(request, report_id):
         report.delete()
         return redirect('report_list')
     return render(request, 'report_confirm_delete.html', {'object': report})
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from .models import Profile
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            # Перенаправление в зависимости от роли
+            if user.profile.role == 'admin':
+                return redirect('admin_dashboard')
+            elif user.profile.role == 'operator':
+                return redirect('operator_dashboard')
+            elif user.profile.role == 'employee':
+                return redirect('employee_dashboard')
+        else:
+            return render(request, 'login.html', {'error': 'Неверные данные'})
+    return render(request, 'login.html')
+
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def admin_dashboard(request):
+    if request.user.profile.role != 'admin':
+        return redirect('home')  # Перенаправление, если не администратор
+    return render(request, 'admin_dashboard.html')
+
+@login_required
+def operator_dashboard(request):
+    if request.user.profile.role != 'operator':
+        return redirect('home')  # Перенаправление, если не оператор
+    return render(request, 'operator_dashboard.html')
+
+@login_required
+def employee_dashboard(request):
+    if request.user.profile.role != 'employee':
+        return redirect('home')  # Перенаправление, если не сотрудник
+    return render(request, 'employee_dashboard.html')
+
+
+@login_required
+def some_view(request):
+    if request.user.profile.role != 'admin':  # Проверка роли
+        return redirect('home')  # Перенаправление, если роль не соответствует
+    # Остальная логика
